@@ -10,18 +10,21 @@ import (
 )
 
 /*
-CREATE TABLE `user` (
-    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user`
+(
+    `id`   BIGINT(20) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(20) DEFAULT '',
-    `age` INT(11) DEFAULT '0',
-    PRIMARY KEY(`id`)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+    `age`  INT(11)     DEFAULT '0',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4;
 */
 
 var db *sqlx.DB
 
 func initDB() (err error) {
-	dsn := "root:root@tcp(127.0.0.1:3306)/sql_test?charset=utf8mb4&parseTime=True"
+	dsn := "root:root@tcp(127.0.0.1:3306)/study-sqlx?charset=utf8mb4&parseTime=True"
 	// 也可以使用MustConnect连接不成功就panic
 	db, err = sqlx.Connect("mysql", dsn)
 	if err != nil {
@@ -349,26 +352,29 @@ func main() {
 	u3 := user{Name: "小王子", Age: 38}
 	fmt.Println("----------------------------")
 	// 方法1
-	users := []*user{&u1, &u2, &u3}
-	err := BatchInsertUsers(users)
-	if err != nil {
-		fmt.Printf("BatchInsertUsers failed, err:%v\n", err)
-	}
-	fmt.Println("----------------------------")
-	// 方法2
-	users2 := []interface{}{u1, u2, u3}
-	err = BatchInsertUsers2(users2)
-	if err != nil {
-		fmt.Printf("BatchInsertUsers2 failed, err:%v\n", err)
-	}
-	fmt.Println("----------------------------")
+	//users := []*user{&u1, &u2, &u3}
+	//err := BatchInsertUsers(users)
+	//if err != nil {
+	//	fmt.Printf("BatchInsertUsers failed, err:%v\n", err)
+	//}
+	//fmt.Println("----------------------------")
+
+	//// 方法2
+	//users2 := []interface{}{u1, u2, u3}
+	//err = BatchInsertUsers2(users2)
+	//if err != nil {
+	//	fmt.Printf("BatchInsertUsers2 failed, err:%v\n", err)
+	//}
+	//fmt.Println("----------------------------")
+
 	// 方法3
 	users3 := []*user{&u1, &u2, &u3}
-	err = BatchInsertUsers3(users3)
+	err := BatchInsertUsers3(users3)
 	if err != nil {
 		fmt.Printf("BatchInsertUsers3 failed, err:%v\n", err)
 	}
 	fmt.Println("----------------------------")
+
 	//查询id在给定id集合中的数据。
 	users4, err4 := QueryByIDs([]int{6, 5, 4})
 	if err4 != nil {
@@ -379,6 +385,7 @@ func main() {
 	}
 
 	fmt.Println("----------------------------")
+
 	//用mysql排序
 	users5, err5 := QueryAndOrderByIDs([]int{6, 5, 4})
 	if err4 != nil {
